@@ -3,9 +3,6 @@ package Areas;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.util.HashMap;
-
-import ShortestPath
-
 import Managers.GridBuilder;
 import Managers.HotelManager;
 import Managers.SettingBuilder;
