@@ -1,0 +1,126 @@
+[
+	{
+		"AreaType" : "Room",
+		"Position" : "1, 1",
+		"Dimension" : "1, 1",
+		"Classification" : "1 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "2, 1",
+		"Dimension" : "1, 1",
+		"Classification" : "1 Star"
+	},
+	{
+		"AreaType" : "Restaurant",
+		"Position" : "3, 1",
+		"Dimension" : "2, 1",
+		"Capacity" : "3"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "5, 1",
+		"Dimension" : "1, 1",
+		"Classification" : "1 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "6, 1",
+		"Dimension" : "1, 1",
+		"Classification" : "1 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "1, 2",
+		"Dimension" : "1, 1",
+		"Classification" : "2 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "2, 2",
+		"Dimension" : "1, 1",
+		"Classification" : "2 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "3, 2",
+		"Dimension" : "1, 1",
+		"Classification" : "2 Star"
+	},
+	{
+		"AreaType" : "Fitness",
+		"Position" : "4, 2",
+		"Dimension" : "2, 1"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "6, 2",
+		"Dimension" : "1, 1",
+		"Classification" : "2 Star"
+	},
+	{
+		"AreaType" : "Cinema",
+		"Position" : "1, 3",
+		"Dimension" : "2, 2"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "3, 3",
+		"Dimension" : "1, 1",
+		"Classification" : "3 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "4, 3",
+		"Dimension" : "1, 1",
+		"Classification" : "3 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "5, 3",
+		"Dimension" : "1, 1",
+		"Classification" : "3 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "6, 3",
+		"Dimension" : "1, 1",
+		"Classification" : "3 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "3, 4",
+		"Dimension" : "2, 2",
+		"Classification" : "4 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "5, 4",
+		"Dimension" : "2, 2",
+		"Classification" : "4 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "1, 5",
+		"Dimension" : "2, 2",
+		"Classification" : "5 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "3, 3",
+		"Dimension" : "1, 1",
+		"Classification" : "4 Star"
+	},
+	{
+		"AreaType" : "Room",
+		"Position" : "3, 4",
+		"Dimension" : "1, 1",
+		"Classification" : "4 Star"
+	},
+	{
+		"AreaType" : "Restaurant",
+		"Position" : "5, 6",
+		"Dimension" : "2, 1",
+		"Capacity" : "3"
+	}
+]

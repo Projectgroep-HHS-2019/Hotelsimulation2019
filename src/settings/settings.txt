@@ -1,0 +1,4 @@
+tickRate = 1;
+setting2 = 4;
+setting3 = 18;
+setting4 = 11;
