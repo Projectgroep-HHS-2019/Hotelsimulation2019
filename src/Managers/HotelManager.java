@@ -739,4 +739,5 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		checkMovie();
 		checkEvacuateMode();	
 	}
+
 }

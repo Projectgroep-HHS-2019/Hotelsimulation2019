@@ -1,8 +1,11 @@
 package Scenes;
 
+import Managers.HotelManager;
 import javafx.scene.layout.BorderPane;
 import Managers.GridBuilder;
 import javafx.scene.Scene;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 /**
  * This class holds the logic that is used building the scene of the simulation.
@@ -30,9 +33,17 @@ public class SimulationScene
 	 * method die een scene opbouwd voor het spel
 	 */	
 	public void setSimulationScene(){
-		// TO DO auto - resize 
+		// TO DO auto - resize
 		simulationScene = new Scene(bPane, 800, 600);
-		MainMenuScene.mainMenuStage.setScene(simulationScene);
+
+		Stage stage = new Stage();
+		stage.setScene(simulationScene);
+		stage.initModality(Modality.APPLICATION_MODAL);
+		stage.setOnCloseRequest( e -> {
+			MainMenuScene.eventManager.pause();
+			HotelManager.timer.pause();
+		});
+		stage.show();
 	}
 
 }

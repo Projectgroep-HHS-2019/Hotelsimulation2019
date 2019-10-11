@@ -146,8 +146,7 @@ public class MainMenuScene {
 	    double factor = (Double.valueOf(enteredTick) / Double.valueOf(defaultTick));
 	    
 	    eventManager.changeSpeed(factor);
-	    
-	    
+
 	    System.out.println("defaultTick is: " + defaultTick);
 	    System.out.println("enteredTick is: " + enteredTick);
 	    System.out.println("factor is: " + factor);
