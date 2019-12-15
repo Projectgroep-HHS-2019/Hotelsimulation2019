@@ -43,7 +43,7 @@ public class GridBuilder {
     private int roomNumber = 1; // Give room numbers
     public static int colSize = 48;
     public static int rowSize = 48;
-    private int[][] isOcupied = new int[25][25];
+    private int[][] isOccupied;
     private int objectNumber = 1;
     ShortestPath.Dijkstra _ds = new ShortestPath.Dijkstra();
 
@@ -51,9 +51,7 @@ public class GridBuilder {
     private void createGrid() {
         grid = new GridPane();
         grid.setGridLinesVisible(false);
-        grid.setMaxSize(500, 500);
-        //int cols = 14;
-        //int rows = 12;
+        grid.setMaxSize(100, 100);
         int cols = 50;
         int rows = 50;
 
@@ -94,6 +92,7 @@ public class GridBuilder {
         // Add the elevator background to the grid
         grid.add(elevatorBackground, xOffset - 1, 1, 1, getMaxY());
         grid.setBackground(new Background(new BackgroundFill(Color.web("#102860"), CornerRadii.EMPTY, Insets.EMPTY)));
+
     }
 
     private void getDimensions() {
@@ -133,6 +132,8 @@ public class GridBuilder {
 
             }
 
+            isOccupied = new int[maxX+1][maxY+1];
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -146,27 +147,28 @@ public class GridBuilder {
 
     private void createRooms() {
 
-
         try {
             FileReader reader = new FileReader(MainMenuScene.selectedLayout);
             JSONParser jsonParser = new JSONParser();
             JSONArray jsonArr = (JSONArray) jsonParser.parse(reader);
 
             // For-each loop to create rooms via the AreaFactory
+            int stars;
+            long capacity;
+            int x;
+            int y;
+            int dimensionW;
+            int dimensionH;
 
             for (Object o : jsonArr) {
-                int stars = 0;
-                long capacity = 0;
-                int x = 0;
-                int y = 0;
-                int dimensionW = 0;
-                int dimensionH = 0;
+                stars = 0;
+                capacity = 0;
 
                 JSONObject obj = (JSONObject) o;
                 String areaType = (String) obj.get("AreaType");
                 String dimension = (String) obj.get("Dimension");
 
-                //Spliting dimension and putting it in ints
+                //Splitting dimension and putting it in ints
                 String[] parts = dimension.split(",");
                 dimensionW = Integer.parseInt(parts[0]);
                 String[] partsAfterSpace = parts[1].split("\\s+");
@@ -194,13 +196,13 @@ public class GridBuilder {
                 }
 
                 //Create room based on parameters in object
-                if (isOcupied[x][y] == 1) {
+                if (isOccupied[x][y] == 1) {
                     System.out.println("x: " + x + " y: " + y);
                     System.out.println("Hier staat al iets, deze sla ik over");
                     System.out.println("object: " + objectNumber);
                     System.out.println("");
                     objectNumber += 1;
-                } else if (isOcupied[x][y] != 1) {
+                } else if (isOccupied[x][y] != 1) {
 
                     if (dimensionH > 1) {
                         y += 1;
@@ -216,25 +218,16 @@ public class GridBuilder {
                     for (int xOcupied = x; xOcupied < x + dimensionW; xOcupied++) {
                         for (int yOcupied = y; yOcupied > y - dimensionH; yOcupied--) {
                             if (areaType == "Cinema") {
-                                isOcupied[xOcupied][yOcupied] = 6;
+                                isOccupied[xOcupied][yOcupied] = 6;
                             } else {
-                                isOcupied[xOcupied][yOcupied] = 1;
+                                isOccupied[xOcupied][yOcupied] = 1;
                             }
                         }
                     }
                     objectNumber += 1;
                 }
             }
-            isOcupied[7][0] = 9;
-            isOcupied[7][1] = 9;
-            isOcupied[7][2] = 9;
-            isOcupied[7][3] = 9;
-            isOcupied[7][4] = 9;
-            isOcupied[7][5] = 9;
-            isOcupied[7][6] = 9;
-            isOcupied[7][7] = 9;
-            isOcupied[7][8] = 9;
-            isOcupied[7][9] = 9;
+
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -312,14 +305,13 @@ public class GridBuilder {
                 }
                 if (object instanceof Lobby) {
                     if ((object.getXEnd() == object2.getX() && object.getY() == object2.getY())) {
-                        object.neighbours.put(object2, 7); // value 7 moet nog dynamisch gemaakt worden aan de hand van entrance point
-                        object2.neighbours.put(object, 7); // value 7 moet nog dynamisch gemaakt worden aan de hand van entrance point
+                        object.neighbours.put(object2, maxX);
+                        object2.neighbours.put(object, maxX);
                     }
                 }
             }
         }
     }
-
 
     public static int getMaxY() {
         return maxY;

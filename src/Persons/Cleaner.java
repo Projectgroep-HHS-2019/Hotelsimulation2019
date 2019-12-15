@@ -65,7 +65,7 @@ public class Cleaner extends Person{
 	
 	private void assignEmergencyRoomToClean(Area roomToClean) {
 		currentRoomToClean = roomToClean;
-		status = "EMERGENCY";
+		status = String.valueOf(Status.EMERGENCY);
 		getRoute(roomToClean);
 		EmergencyRoomCleaningList.remove(0);
 	}
@@ -73,7 +73,7 @@ public class Cleaner extends Person{
 	private void assignRoomToClean(Area roomToClean) {
 		if(!HotelManager.evacuateCleanerMode){
 			currentRoomToClean = roomToClean;
-			status = "GOTODIRTYROOM";
+			status = String.valueOf(Status.GOTO_DIRTY_ROOM);
 			getRoute(roomToClean);
 			roomCleaningList.remove(0);
 		}
@@ -82,32 +82,32 @@ public class Cleaner extends Person{
 	//Check the status and based on that perform the corresponding action
 	@Override
 	public void performAction(){
-		if(status.equals("EVACUATED"))
+		if(status.equals(String.valueOf(Status.EVACUATED)))
 		{
 			setInvisible();
 		}
 		
-		if(status.equals("GO_OUTSIDE"))
+		if(status.equals(String.valueOf(Status.GO_OUTSIDE)))
 			//
 			if(currentRoute.isEmpty()) 
 			{
-				setStatus("EVACUATED");
+				setStatus(String.valueOf(Status.EVACUATED));
 			}
 		
-		if(status.equals("INACTIVE")){
+		if(status.equals(String.valueOf(Status.INACTIVE))){
 			checkCleaningList();
 		} 
 		
-		if(status.equals("INACTIVE") && currentRoute.isEmpty())
+		if(status.equals(String.valueOf(Status.INACTIVE)) && currentRoute.isEmpty())
 		{
 			checkCleaningList();
 		}
 		
-		else if(status.equals("GOTODIRTYROOM") && currentRoute.isEmpty()){
+		else if(status.equals(String.valueOf(Status.GOTO_DIRTY_ROOM)) && currentRoute.isEmpty()){
 			cleanRoom();
 		}
 		
-		else if(status.equals("EMERGENCY") && currentRoute.isEmpty()){
+		else if(status.equals(String.valueOf(Status.EMERGENCY)) && currentRoute.isEmpty()){
 			cleanRoom();
 		}
 	}
@@ -132,7 +132,7 @@ public class Cleaner extends Person{
 				currentRoomToClean.setAvailability(true);
 				setVisible();
 				getRoute(Person.getLobby());
-				setStatus("INACTIVE");
+				setStatus(String.valueOf(Status.INACTIVE));
 			}
 			else {
 				cleaningTimeRemaining -= 1;

@@ -82,15 +82,13 @@ public abstract class Person
 				return object;
 			}
 			else if(object.getRealY() == y) {
-				for(int i = object.dimensionW; i > 0; i--) {
+				for(int i = object.getDistance(); i > 0; i--) {
 					if(i + object.getX() - 1 == x) {
 						return object;
 					}
 				}
 			}
 		}
-//		System.out.println("Je bent er voorbij!!!!!!!!!!!!!!!!!!!!!!!!!");
-//		System.out.println("person x: " + x + "  y: " + y);
 		return null;
 	}
 	
@@ -189,7 +187,7 @@ public abstract class Person
 		if(moveAllowed)
 		for (Area object: Area.getAreaList()) {
 			if(object.getX() == x && object.getRealY() == y) {
-				if(object.areaType == "Stairway"){
+				if(object.getAreaType() == "Stairway"){
 					moveAllowed = false;
 				}
 			}

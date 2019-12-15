@@ -14,7 +14,7 @@ public class SettingBuilder {
 	//Variables
 	private ArrayList<String> settingList;
 	public static int defaultTickSpeed = 1000;
-	public static int tickSpeed = 100; //In miliseconds
+	public static int tickSpeed = 250; //In miliseconds
 	public static int cleaningTime = 3;
 	public static int dieInLineTime = 5;
 	public static int movieTime = 20;

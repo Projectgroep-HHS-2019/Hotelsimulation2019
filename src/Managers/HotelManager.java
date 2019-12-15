@@ -9,9 +9,12 @@ import java.util.Observer;
 import Areas.Area;
 import Areas.Cinema;
 import Areas.HotelRoom;
+import Areas.Restaurant;
+import EventLib.HotelEventType;
 import Factories.PersonFactory;
 import Persons.Cleaner;
 import Persons.Person;
+import Persons.Status;
 import javafx.application.Platform;
 import EventLib.HotelEvent;
 
@@ -83,21 +86,21 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		{
 			for(Person guest : guests) 
 			{
-				if(guest.getStatus().equals("GO_BACK_TO_ROOM") && guest.currentRoute.isEmpty())
+				if(guest.getStatus().equals(String.valueOf(Status.GO_BACK_TO_ROOM)) && guest.currentRoute.isEmpty())
 				{
 					currentGuestAmountInRoom++;
 				}
 				
-				else if(guest.getStatus().equals("INSIDE_FITNESS"))
+				else if(guest.getStatus().equals(String.valueOf(Status.INSIDE_FITNESS)))
 				{
 					currentGuestAmountInFitness++;
 				}
 				
-				else if(guest.getStatus().equals("NEED_FOOD") && guest.currentRoute.isEmpty())
+				else if(guest.getStatus().equals(String.valueOf(Status.NEED_FOOD)) && guest.currentRoute.isEmpty())
 				{
 					currentGuestAmountInRestaurant++;
 				}
-				else if(guest.getStatus().equals("GO_TO_CINEMA") && guest.currentRoute.isEmpty())
+				else if(guest.getStatus().equals(String.valueOf(Status.GOTO_CINEMA)) && guest.currentRoute.isEmpty())
 				{
 					currentGuestAmountInCinema++;
 				}
@@ -110,12 +113,12 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		{
 			for(Person cleaner : cleaners) 
 			{
-				if(cleaner.getStatus().equals("EMERGENCY"))
+				if(cleaner.getStatus().equals(String.valueOf(Status.EMERGENCY)))
 				{
 					currentCleanerAmountInEmergencyCleaning++;
 				}
 				
-				else if(cleaner.getStatus().equals("GOTODIRTYROOM"))
+				else if(cleaner.getStatus().equals(String.valueOf(Status.GOTO_DIRTY_ROOM)))
 				{
 					currentCleanerAmountInCleaning++;
 				}
@@ -164,7 +167,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 	  		for(Person guest : guests) {
 	  			if(!guest.getAvailability()){
 	  				guest.setVisible();
-					guest.setStatus("GO_OUTSIDE");
+					guest.setStatus(String.valueOf(Status.GO_OUTSIDE));
 					guest.clearRoute();
 					guest.getRoute(Person.getLobby());
 	  			}
@@ -173,7 +176,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		
 		synchronized (cleaners) {
 			for(Person cleaner : cleaners) {
-				cleaner.setStatus("GO_OUTSIDE");
+				cleaner.setStatus(String.valueOf(Status.GO_OUTSIDE));
 				cleaner.clearRoute();
 				cleaner.getRoute(Person.getLobby());
 			} 			
@@ -211,7 +214,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 	{
 		for(int i = 1; i <= amount; i++)
 		{
-			Person xx = PersonFactory.createPerson("Cleaner","INACTIVE",i,true,2,GridBuilder.getMaxY()+1);
+			Person xx = PersonFactory.createPerson("Cleaner",String.valueOf(Status.INACTIVE),i,true,2,GridBuilder.getMaxY()+1);
 			Cleaner c = (Cleaner) xx;
 			c.setId(i);
 			cleaners.add(xx);
@@ -233,7 +236,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 			{
 				if(object instanceof HotelRoom) 
 				{
-					if (object.stars == starAmount && object.available == true)
+					if (((HotelRoom)object).getStars() == starAmount && object.isAvailable() == true)
 					{					
 						object.setAvailability(false);
 						return object.id;
@@ -288,13 +291,12 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 	
 	private synchronized void sendGuestToCinema(int guestId)
 	{
-		String status = "GOTO_CINEMA";
 		synchronized (guests) {
 			for(Person guest : guests) {
-				if(guest.getId() == guestId) 
+				if(guest.getId() == guestId)
 				{
 					guest.currentRoute.clear();
-					guest.setStatus(status);
+					guest.setStatus(String.valueOf(Status.GOTO_CINEMA));
 					guest.getRoute(findClosestArea("Cinema", guestId));
 				}
 	  		}
@@ -303,12 +305,11 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 	
 	private synchronized void sendGuestToFitness(int guestId, int hte) 
 	{
-		String status = "GOTO_FITNESS";
 		synchronized (guests) {
 			for(Person guest : guests) {
 				if(guest.getId() == guestId) {
 					guest.currentRoute.clear();
-					guest.setStatus(status);
+					guest.setStatus(String.valueOf(Status.GOTO_FITNESS));
 					guest.setFitnessTickAmount(hte);
 					guest.getRoute(findClosestArea("Fitness", guestId));
 												
@@ -326,7 +327,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		{
 			for (Area object: Area.getAreaList()) 
 			{
-				if(object.areaType.equals(name)) 
+				if(object.getAreaType().equals(name))
 				{
 					objectList.add(object);
 				}
@@ -375,14 +376,13 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 	
 	private synchronized void sendGuestToRestaurant(int guestId) 
 	{
-		String status = "NEED_FOOD";
-		synchronized (guests) 
+		synchronized (guests)
 		{
 			for(Person guest : guests) {
 				if(guest.getId() == guestId) 
 				{
 					guest.currentRoute.clear();
-					guest.setStatus(status);
+					guest.setStatus(String.valueOf(Status.NEED_FOOD));
 					guest.getRoute(findClosestArea("Restaurant", guestId));
 				}
 	  		}
@@ -398,7 +398,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		  		for(Person guest : guests) 
 		  		{
 					guest.setVisible();
-					guest.setStatus("REENTERED");
+					guest.setStatus(String.valueOf(Status.REENTERED));
 		  		}  			
 			}
 			
@@ -406,7 +406,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		  		for(Person cleaner : cleaners) 
 		  		{
 		  			cleaner.setVisible();
-		  			cleaner.setStatus("INACTIVE");
+		  			cleaner.setStatus(String.valueOf(Status.INACTIVE));
 		  		}  			
 			}
 		}
@@ -463,9 +463,9 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 			{
 				if(guestId == guest.getId()) 
 				{
-					if(guest.getStatus() == "IN_RESTAURANT") 
+					if(guest.getStatus() == String.valueOf(Status.IN_RESTAURANT))
 					{
-						guest.getCurrentPosition().capacity++;
+						((Restaurant)guest.getCurrentPosition()).capacity++;
 					}
 				}
 			}	
@@ -482,7 +482,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		String hashmapContent = event.Data.toString();
 		
 		//Check in: Create guest, assign room, add to array, get route to room
-		if (tempEvent == "CHECK_IN")
+		if (tempEvent == String.valueOf(HotelEventType.CHECK_IN))
 		{
 			String guestId;
 			int setGuestIdValue;
@@ -507,7 +507,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 						  
 						  if (selectedRoomId != 0)
 						  {
-							  Person xx = PersonFactory.createPerson("Guest","GO_BACK_TO_ROOM", setGuestIdValue,true,2,GridBuilder.getMaxY()+1);
+							  Person xx = PersonFactory.createPerson("Guest",String.valueOf(Status.GO_BACK_TO_ROOM), setGuestIdValue,true,2,GridBuilder.getMaxY()+1);
 							  xx.setRoomId(selectedRoomId);
 							  guests.add(xx);
 							  xx.getRoute(getRoomNodeAfterCheckIn(selectedRoomId));
@@ -523,7 +523,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		
 		//Check out for guest, send cleaner to room, remove the guest
 
-		else if (tempEvent == "CHECK_OUT")
+		else if (tempEvent == String.valueOf(HotelEventType.CHECK_OUT))
 		{
 			int guestId = splitEventCheckOut(event);
 
@@ -533,7 +533,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		}
 		
 		//Send guest to fitness
-		else if (tempEvent == "GOTO_FITNESS")
+		else if (tempEvent == String.valueOf(HotelEventType.GOTO_FITNESS))
 		{
 			String guestId;
 			int setGuestIdValue;
@@ -552,20 +552,20 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		}
 		
 		//Send guest to restaurant
-		else if (tempEvent == "NEED_FOOD")
+		else if (tempEvent == String.valueOf(HotelEventType.NEED_FOOD))
 		{
 			int guestId = splitEventNeedFood(event);
 			sendGuestToRestaurant(guestId);
 		}
 	
 		//Send person to the Cinema
-		else if (tempEvent == "GOTO_CINEMA")
+		else if (tempEvent == String.valueOf(HotelEventType.GOTO_CINEMA))
 		{
 			int guestId = splitEventGoToCinema(event);
 			sendGuestToCinema(guestId);
 		}
 		
-		else if (tempEvent == "START_CINEMA")
+		else if (tempEvent == String.valueOf(HotelEventType.START_CINEMA))
 		{
 			int cinemaId = splitEventStartCinema(event);
 						
@@ -582,18 +582,18 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 		}
 		
 		//Add room to clean to the queue.
-		else if (tempEvent == "CLEANING_EMERGENCY"){
+		else if (tempEvent == String.valueOf(HotelEventType.CLEANING_EMERGENCY)){
 			int guestId = splitEventCleaningEmergency(event);
 			addEmergencyRoomToClean(guestId);
 		}
 		
-		else if (tempEvent == "EVACUATE")
+		else if (tempEvent == String.valueOf(HotelEventType.EVACUATE))
 		{
 			evacuatePeople();
 			reimportPeople = true;
 		}
 				
-		else if (tempEvent == "GODZILLA")
+		else if (tempEvent == String.valueOf(HotelEventType.GODZILLA))
 		{
 			System.out.println("Godzilla event, message: " + hashmapContent);
 		}		
@@ -698,7 +698,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 			{
 		  		for(Person guest : guests) 
 		  		{
-					if (guest.getStatus() == "GO_OUTSIDE" && guest.getAliveStatus() == true)
+					if (guest.getStatus() == String.valueOf(Status.GO_OUTSIDE) && guest.getAliveStatus() == true)
 					{
 						evacuateGuestMode = true;
 						break;
@@ -714,7 +714,7 @@ public class HotelManager implements EventLib.HotelEventListener, Observer{
 			{
 				for(Person cleaner : cleaners) 
 				{
-					if (cleaner.getStatus() == "GO_OUTSIDE")
+					if (cleaner.getStatus() == String.valueOf(Status.GO_OUTSIDE))
 					{
 						evacuateCleanerMode = true;
 						break;

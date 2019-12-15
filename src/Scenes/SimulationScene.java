@@ -26,7 +26,7 @@ public class SimulationScene
 	public void setBorderPane(){
 		bPane = new BorderPane();
 		bPane.setCenter(GridBuilder.grid);
-		bPane.setMaxSize(600, 600);
+		bPane.setMaxSize(100, 100);
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class SimulationScene
 	 */	
 	public void setSimulationScene(){
 		// TO DO auto - resize
-		simulationScene = new Scene(bPane, 800, 600);
+		simulationScene = new Scene(bPane, 700, 600);
 
 		Stage stage = new Stage();
 		stage.setScene(simulationScene);

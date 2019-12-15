@@ -1,15 +1,16 @@
 package Areas;
 
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.GridPane;
+
+import java.io.FileInputStream;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * This is the abstract class Area it holds the logic for all area types.=
@@ -19,26 +20,23 @@ import javafx.scene.layout.GridPane;
 public abstract class Area 
 {
 	// Variables for Dijkstra
-
     public HashMap<Area, Integer> neighbours;
     public int distance;
     public Area latest;
     public int id;
-    public static List<Area> areaList =  Collections.synchronizedList(new ArrayList<Area>());
+    private static List<Area> areaList =  Collections.synchronizedList(new ArrayList<>());
     
 	// Variables
 	protected int x = 0;
 	protected int y = 0;
-	public int dimensionW;
+	protected int dimensionW;
 	protected int dimensionH;	
-	public boolean available = true;
-	public int stars = 1;
+	protected boolean available = true;
 	protected ImageView roomImageView;
 	protected Image roomImage;
 	protected String imageLocation;
-	public String areaType;
-	public long capacity;
-		
+	protected String areaType;
+
 	//Functions
 	protected void createSprite(FileInputStream sprite){
 		Image roomImage = new Image(sprite);
@@ -78,6 +76,16 @@ public abstract class Area
 	public int getY() 
 	{
 		return y;
+	}
+
+	public boolean isAvailable()
+	{
+		return available;
+	}
+
+	public String getAreaType()
+	{
+		return areaType;
 	}
 
 	public void setAvailability(boolean b) 

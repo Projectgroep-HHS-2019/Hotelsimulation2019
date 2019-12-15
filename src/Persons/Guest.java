@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import Areas.Area;
+import Areas.Restaurant;
 import Managers.GridBuilder;
 import Managers.HotelManager;
 
@@ -67,66 +68,62 @@ public class Guest extends Person{
 		alive = getAliveStatus();
 		if(alive)
 		{
-			if(status.equals("GO_OUTSIDE"))
+			if(status.equals(String.valueOf(Status.GO_OUTSIDE)))
 			{
 				performActionGoOutside();
 			}
 			
-			if(status.equals("GOTO_CINEMA"))
+			if(status.equals(String.valueOf(Status.GOTO_CINEMA)))
 			{
 				performActionGoToCinema();
 			}
 			
-			if(status.equals("INSIDE_CINEMA"))
+			if(status.equals(String.valueOf(Status.INSIDE_CINEMA)))
 			{
 				performActionInsideCinema();
 			}
 			
-			if(status.equals("GOTO_FITNESS")) 
+			if(status.equals(String.valueOf(Status.GOTO_FITNESS)))
 			{
 				performActionGoToFitness();
 			}
-			if(status.equals("INSIDE_FITNESS")) 
+			if(status.equals(String.valueOf(Status.INSIDE_FITNESS)))
 			{
 				performActionInsideFitness();
 			}
 			
-			if (status.equals("REENTERED") && currentRoute.isEmpty()) 
+			if (status.equals(String.valueOf(Status.REENTERED)) && currentRoute.isEmpty())
 			{
 				performActionReenteredNoRoute();
 			}
 			
-			if(status.equals("GO_BACK_TO_ROOM") && currentRoute.isEmpty()) 
+			if(status.equals(String.valueOf(Status.GO_BACK_TO_ROOM)) && currentRoute.isEmpty())
 			{
 				performActionGoBackToRoomNoRoute();
 			} 
-			if(status.equals("CHECK_OUT") ) 
+			if(status.equals(String.valueOf(Status.CHECK_OUT)))
 			{		
 				performActionCheckOut();
 			}			
-			if(status.equals("LEAVE_HOTEL") && currentRoute.isEmpty()) 
+			if(status.equals(String.valueOf(Status.LEAVE_HOTEL)) && currentRoute.isEmpty())
 			{
 				performActionLeaveHotelNoRoute();
 			}	
-			if(status.equals("NEED_FOOD")) 
+			if(status.equals(String.valueOf(Status.NEED_FOOD)))
 			{
 				performActionNeedFood();
 			}
-			if(status.equals("CHECK_RESTAURANT_QUEUE")) 
+			if(status.equals(String.valueOf(Status.CHECK_RESTAURANT_QUEUE)))
 			{
 				performActionCheckRestaurantQueue();
 			}
-			if(status.equals("IN_RESTAURANT")) 
+			if(status.equals(String.valueOf(Status.IN_RESTAURANT)))
 			{
 				performActionInRestaurant();
 			}
-			if(status.equals("IN_QUEUE")) 
+			if(status.equals(String.valueOf(Status.IN_QUEUE)))
 			{
 				performActionInQueue();
-			}		
-			if(status.equals("GO_TO_CINEMA"))
-			{
-				performActionGoToCinema();
 			}
 		}
 	}
@@ -136,7 +133,7 @@ public class Guest extends Person{
 		if(currentRoute.isEmpty()) 
 		{
 			setInvisible();
-			setStatus("EVACUATED");
+			setStatus(String.valueOf(Status.EVACUATED));
 		}
 	}
 	
@@ -145,7 +142,7 @@ public class Guest extends Person{
 		setVisible();
 		if(currentRoute.isEmpty()) 
 		{
-			setStatus("INSIDE_CINEMA");
+			setStatus(String.valueOf(Status.INSIDE_CINEMA));
 			setInvisible();
 		}
 	}
@@ -155,7 +152,7 @@ public class Guest extends Person{
 		if(HotelManager.movieTimeRemaining == 0)
 		{
 			getRoute(HotelManager.getRoomNode(roomId));
-			setStatus("GO_BACK_TO_ROOM");
+			setStatus(String.valueOf(Status.GO_BACK_TO_ROOM));
 			setVisible();
 		}
 	}
@@ -165,7 +162,7 @@ public class Guest extends Person{
 		setVisible();
 		if(currentRoute.isEmpty()) 
 		{
-			setStatus("INSIDE_FITNESS");
+			setStatus(String.valueOf(Status.INSIDE_FITNESS));
 		}
 	}
 	
@@ -174,7 +171,7 @@ public class Guest extends Person{
 		if(fitnessTickAmount == 0) 
 		{
 			getRoute(HotelManager.getRoomNode(roomId));
-			setStatus("GO_BACK_TO_ROOM");
+			setStatus(String.valueOf(Status.GO_BACK_TO_ROOM));
 			setVisible();
 		} 
 		else 
@@ -187,7 +184,7 @@ public class Guest extends Person{
 	private void performActionReenteredNoRoute()
 	{
 		getRoute(HotelManager.getRoomNode(roomId));
-		setStatus("GO_BACK_TO_ROOM");
+		setStatus(String.valueOf(Status.GO_BACK_TO_ROOM));
 	}
 	
 	private void performActionGoBackToRoomNoRoute()
@@ -199,22 +196,22 @@ public class Guest extends Person{
 	{
 		setVisible();
 		getRoute(Person.getLobby());
-		setStatus("LEAVE_HOTEL");
+		setStatus(String.valueOf(Status.LEAVE_HOTEL));
 		HotelManager.guestCounter--;
 	}
 	
 	private void performActionLeaveHotelNoRoute()
 	{
-		setStatus("LEFT_HOTEL");
+		setStatus(String.valueOf(Status.LEFT_HOTEL));
 		setInvisible();
 	}
 	
 	private void performActionNeedFood()
 	{
 		setVisible();
-		if(status.equals("NEED_FOOD")  && currentRoute.isEmpty()) 
+		if(status.equals(String.valueOf(Status.NEED_FOOD))  && currentRoute.isEmpty())
 		{
-			setStatus("CHECK_RESTAURANT_QUEUE");	
+			setStatus(String.valueOf(Status.CHECK_RESTAURANT_QUEUE));
 		}
 	}
 	
@@ -227,7 +224,7 @@ public class Guest extends Person{
 		else
 		{
 			getRoute(HotelManager.getRoomNode(roomId));
-			setStatus("GO_BACK_TO_ROOM");
+			setStatus(String.valueOf(Status.GO_BACK_TO_ROOM));
 			setVisible();
 		}
 	}
@@ -249,14 +246,14 @@ public class Guest extends Person{
 	}
 
 	private void performActionCheckRestaurantQueue() {
-		if(getCurrentPosition().capacity > 0) {
-			setStatus("IN_RESTAURANT");
+		if(((Restaurant) getCurrentPosition()).capacity > 0) {
+			setStatus(String.valueOf(Status.IN_RESTAURANT));
 			setInvisible();
-			getCurrentPosition().capacity--;
+			((Restaurant)getCurrentPosition()).capacity--;
 		} 
 		else 
 		{
-			setStatus("IN_QUEUE");
+			setStatus(String.valueOf(Status.IN_QUEUE));
 		}
 	}
 	

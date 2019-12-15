@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
  * This class holds the logic that is to build the main menu.
@@ -53,6 +54,13 @@ public class MainMenuScene {
 		mainMenuStage = stage;
 		stage.setTitle("Hotel Simulatie");
 		stage.setResizable(false);
+
+		stage.setOnCloseRequest(new EventHandler<WindowEvent>() {
+			@Override
+			public void handle(WindowEvent event) {
+				event.consume();
+			}
+		});
 	}
 	
 	private void showMainMenuStage(){
@@ -64,6 +72,7 @@ public class MainMenuScene {
 		layout.setAlignment(Pos.CENTER);
 
 	}
+
 	private void createButtons(){
 		// Start button
 		Button startButton = new Button("Start Simulatie");
@@ -117,8 +126,7 @@ public class MainMenuScene {
 				}
 			}
 		});
-		
-		
+
 		Button layoutSettingsButton = new Button("Instellingen");
 		layoutSettingsButton.setPrefSize(150, 36);
 		layoutSettingsButton.setLayoutX(75);

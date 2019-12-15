@@ -33,8 +33,6 @@ public class SettingsScene
 		Scene settingsScene = new Scene(settingsGrid, 400, 400);
 		MainMenuScene.mainMenuStage.setScene(settingsScene);
 		
-		
-		
 		settingsGrid.setHgap(10);
 		settingsGrid.setVgap(10);
 		
@@ -116,14 +114,14 @@ public class SettingsScene
 			    }
 				
 				//HTE speed
-				if (setting1IntValue < 0)
+				if (setting1IntValue < 250)
 				{
-					JOptionPane.showMessageDialog(parent, "Value can't be lower then 250");
+					JOptionPane.showMessageDialog(parent, "Value can't be lower than 250");
 					settingComplete = false;
 				}
 				else if (setting1IntValue > 2000)
 				{
-					JOptionPane.showMessageDialog(parent, "Value can't be higher then 2000");
+					JOptionPane.showMessageDialog(parent, "Value can't be higher than 2000");
 					settingComplete = false;
 				}
 				
@@ -166,6 +164,7 @@ public class SettingsScene
 					SettingBuilder.stairTime = setting4IntValue;
 					
 					JOptionPane.showMessageDialog(parent, "The settings are saved!");
+					MainMenuScene.mainMenuStage.setScene(MainMenuScene.mainMenuScene);
 				}
 				else if(!settingComplete) {
 					JOptionPane.showMessageDialog(parent, "The settings are not saved!");

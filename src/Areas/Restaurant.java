@@ -1,12 +1,12 @@
 package Areas;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.util.HashMap;
-
 import Managers.GridBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
+
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.util.HashMap;
 
 /**
  * This is the Restaurant area.
@@ -15,21 +15,25 @@ import javafx.scene.layout.HBox;
 
 public class Restaurant extends Area {
 
+	public long capacity;
+
 	//Constructor
 	public Restaurant(int id, int dimensionW, int dimensionH, long capacity, int x, int y, String areaType)
 	{
+
 		this.dimensionW = dimensionW;
 		this.dimensionH = dimensionH;
 		this.x = x;
 		this.y = y;
-		this.capacity = 2; //capacity
 		this.areaType = areaType;
-		
-        neighbours = new HashMap<>();
+		this.id = id;
+
+		this.capacity = capacity;
+
+		neighbours = new HashMap<>();
         distance = Integer.MAX_VALUE;
         latest = null;
-        this.id = id;
-		
+
 		// Get the right image depending on dimensions
 		try {
 			createSprite(new FileInputStream("src/Images/door_restaurant.png"));
