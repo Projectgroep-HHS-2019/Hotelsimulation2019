@@ -4,9 +4,6 @@ import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 
 import Managers.SettingBuilder;
-import Scenes.MainMenuScene;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
@@ -80,96 +77,76 @@ public class SettingsScene
 		Button saveButton = new Button("Save");
 		settingsGrid.add(saveButton, 4, 9, 1, 1);
 			
-		cancelButton.setOnAction(new EventHandler<ActionEvent>() 
-		{
-			public void handle(ActionEvent e) {
-				MainMenuScene.mainMenuStage.setScene(MainMenuScene.mainMenuScene);
-			}
-		});
+		cancelButton.setOnAction(e -> MainMenuScene.mainMenuStage.setScene(MainMenuScene.mainMenuScene));
 		
-		saveButton.setOnAction(new EventHandler<ActionEvent>() 
-		{
-			public void handle(ActionEvent e) {
-				
-				boolean settingComplete = true;
-				int setting1IntValue = 1;
-				int setting2IntValue = 1;
-				int setting3IntValue = 1;
-				int setting4IntValue = 1;
-				
-				String setting1Value = setting1EnterValueField.getText();
-				String setting2Value = setting2EnterValueField.getText();
-				String setting3Value = setting3EnterValueField.getText();
-				String setting4Value = setting4EnterValueField.getText();
-				
-				try {
-					setting1IntValue = Integer.parseInt(setting1Value);
-					setting2IntValue = Integer.parseInt(setting2Value);
-					setting3IntValue = Integer.parseInt(setting3Value);
-					setting4IntValue = Integer.parseInt(setting4Value);
-					
-			    } catch (NumberFormatException f) {
-			    	settingComplete = false;
-			    	JOptionPane.showMessageDialog(parent, "Only numbers allowed");;
-			    }
-				
-				//HTE speed
-				if (setting1IntValue < 250)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be lower than 250");
-					settingComplete = false;
-				}
-				else if (setting1IntValue > 2000)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be higher than 2000");
-					settingComplete = false;
-				}
-				
-				//Movie
-				if (setting2IntValue <= 0)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
-					settingComplete = false;
-				}
-				
-				//Cleaning
-				if (setting3IntValue <= 0)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
-					settingComplete = false;
-				}
-				else if (setting3IntValue >= 5)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be 5 or higher");
-					settingComplete = false;
-				}
-				
-				//Stairs
-				if (setting4IntValue <= 0)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
-					settingComplete = false;
-				}
-				else if (setting4IntValue >= 5)
-				{
-					JOptionPane.showMessageDialog(parent, "Value can't be 5 or higher");
-					settingComplete = false;
-				}
-				
-				if (settingComplete)
-				{
-					SettingBuilder.tickSpeed = setting1IntValue;
-					SettingBuilder.movieTime = setting2IntValue;
-					SettingBuilder.cleaningTime = setting3IntValue;
-					SettingBuilder.stairTime = setting4IntValue;
-					
-					JOptionPane.showMessageDialog(parent, "The settings are saved!");
-					MainMenuScene.mainMenuStage.setScene(MainMenuScene.mainMenuScene);
-				}
-				else if(!settingComplete) {
-					JOptionPane.showMessageDialog(parent, "The settings are not saved!");
-					settingComplete = true;
-				}
+		saveButton.setOnAction(e -> {
+
+			boolean settingComplete = true;
+			int setting1IntValue = 1;
+			int setting2IntValue = 1;
+			int setting3IntValue = 1;
+			int setting4IntValue = 1;
+
+			String setting1Value = setting1EnterValueField.getText();
+			String setting2Value = setting2EnterValueField.getText();
+			String setting3Value = setting3EnterValueField.getText();
+			String setting4Value = setting4EnterValueField.getText();
+
+			try {
+				setting1IntValue = Integer.parseInt(setting1Value);
+				setting2IntValue = Integer.parseInt(setting2Value);
+				setting3IntValue = Integer.parseInt(setting3Value);
+				setting4IntValue = Integer.parseInt(setting4Value);
+
+			} catch (NumberFormatException f) {
+				settingComplete = false;
+				JOptionPane.showMessageDialog(parent, "Only numbers allowed");
+			}
+
+			//HTE speed
+			if (setting1IntValue < 250) {
+				JOptionPane.showMessageDialog(parent, "Value can't be lower than 250");
+				settingComplete = false;
+			} else if (setting1IntValue > 2000) {
+				JOptionPane.showMessageDialog(parent, "Value can't be higher than 2000");
+				settingComplete = false;
+			}
+
+			//Movie
+			if (setting2IntValue <= 0) {
+				JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
+				settingComplete = false;
+			}
+
+			//Cleaning
+			if (setting3IntValue <= 0) {
+				JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
+				settingComplete = false;
+			} else if (setting3IntValue >= 5) {
+				JOptionPane.showMessageDialog(parent, "Value can't be 5 or higher");
+				settingComplete = false;
+			}
+
+			//Stairs
+			if (setting4IntValue <= 0) {
+				JOptionPane.showMessageDialog(parent, "Value can't be 0 or lower");
+				settingComplete = false;
+			} else if (setting4IntValue >= 5) {
+				JOptionPane.showMessageDialog(parent, "Value can't be 5 or higher");
+				settingComplete = false;
+			}
+
+			if (settingComplete) {
+				SettingBuilder.tickSpeed = setting1IntValue;
+				SettingBuilder.movieTime = setting2IntValue;
+				SettingBuilder.cleaningTime = setting3IntValue;
+				SettingBuilder.stairTime = setting4IntValue;
+
+				JOptionPane.showMessageDialog(parent, "The settings are saved!");
+				MainMenuScene.mainMenuStage.setScene(MainMenuScene.mainMenuScene);
+			} else {
+				JOptionPane.showMessageDialog(parent, "The settings are not saved!");
+				settingComplete = true;
 			}
 		});
 	}

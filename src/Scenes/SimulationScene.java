@@ -7,6 +7,8 @@ import javafx.scene.Scene;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import javax.swing.*;
+
 /**
  * This class holds the logic that is used building the scene of the simulation.
  *
@@ -14,27 +16,30 @@ import javafx.stage.Stage;
 
 public class SimulationScene 
 {
-
 	private BorderPane bPane;
-	private Scene simulationScene;
 
 	public SimulationScene(){
 		setBorderPane();
 		setSimulationScene();
 	}
 	
-	public void setBorderPane(){
+	private void setBorderPane(){
 		bPane = new BorderPane();
 		bPane.setCenter(GridBuilder.grid);
 		bPane.setMaxSize(100, 100);
+
+		if(!GridBuilder.correctLayout){
+			JFrame alertWindow = new JFrame();
+			JOptionPane.showMessageDialog(alertWindow, "There's something wrong with the layout file.\nThis might cause the simulation not be able to run correctly!");
+		}
 	}
 	
 	/**
 	 * method die een scene opbouwd voor het spel
 	 */	
-	public void setSimulationScene(){
+	private void setSimulationScene(){
 		// TO DO auto - resize
-		simulationScene = new Scene(bPane, 700, 600);
+		Scene simulationScene = new Scene(bPane, 700, 600);
 
 		Stage stage = new Stage();
 		stage.setScene(simulationScene);

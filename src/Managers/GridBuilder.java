@@ -37,6 +37,7 @@ public class GridBuilder {
 
     //Variables
     public static GridPane grid;
+    public static boolean correctLayout = true;
     private static int xOffset = 3;
     private static int maxY = 0;
     private static int maxX = 0;
@@ -46,7 +47,6 @@ public class GridBuilder {
     private int[][] isOccupied;
     private int objectNumber = 1;
     ShortestPath.Dijkstra _ds = new ShortestPath.Dijkstra();
-
 
     private void createGrid() {
         grid = new GridPane();
@@ -101,11 +101,13 @@ public class GridBuilder {
             JSONParser jsonParser = new JSONParser();
             JSONArray jsonArr = (JSONArray) jsonParser.parse(reader);
 
+            int x ;
+            int y;
+            int dimensionW;
+            int dimensionH;
+
             for (Object o : jsonArr) {
-                int x = 0;
-                int y = 0;
-                int dimensionW = 0;
-                int dimensionH = 0;
+
                 JSONObject obj = (JSONObject) o;
                 String dimension = (String) obj.get("Dimension");
 
@@ -129,8 +131,7 @@ public class GridBuilder {
                 if (x + dimensionW > maxX) {
                     maxX = x + dimensionW;
                 }
-
-            }
+           }
 
             isOccupied = new int[maxX+1][maxY+1];
 
@@ -200,8 +201,8 @@ public class GridBuilder {
                     System.out.println("x: " + x + " y: " + y);
                     System.out.println("Hier staat al iets, deze sla ik over");
                     System.out.println("object: " + objectNumber);
-                    System.out.println("");
                     objectNumber += 1;
+                    correctLayout = false;
                 } else if (isOccupied[x][y] != 1) {
 
                     if (dimensionH > 1) {
@@ -217,7 +218,7 @@ public class GridBuilder {
 
                     for (int xOcupied = x; xOcupied < x + dimensionW; xOcupied++) {
                         for (int yOcupied = y; yOcupied > y - dimensionH; yOcupied--) {
-                            if (areaType == "Cinema") {
+                            if (areaType.equals("Cinema")) {
                                 isOccupied[xOcupied][yOcupied] = 6;
                             } else {
                                 isOccupied[xOcupied][yOcupied] = 1;
