@@ -3,9 +3,6 @@ package Areas;
 import Managers.GridBuilder;
 import javafx.geometry.Pos;
 import javafx.scene.layout.HBox;
-
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.util.HashMap;
 
 /**
@@ -20,29 +17,10 @@ public class Restaurant extends Area {
 	//Constructor
 	public Restaurant(int id, int dimensionW, int dimensionH, long capacity, int x, int y, String areaType)
 	{
-
-		this.dimensionW = dimensionW;
-		this.dimensionH = dimensionH;
-		this.x = x;
-		this.y = y;
-		this.areaType = areaType;
-		this.id = id;
-
+		super(id, dimensionW, dimensionH, x, y, areaType);
 		this.capacity = capacity;
+		setSprite("src/Images/door_restaurant.png");
 
-		neighbours = new HashMap<>();
-        distance = Integer.MAX_VALUE;
-        latest = null;
-
-		// Get the right image depending on dimensions
-		try {
-			createSprite(new FileInputStream("src/Images/door_restaurant.png"));
-			
-        } catch (FileNotFoundException e) {
-            //
-            e.printStackTrace();
-        }
-		
 		HBox restaurantBg = new HBox();
 		restaurantBg.setAlignment(Pos.BOTTOM_LEFT);
 		restaurantBg.getChildren().addAll(roomImageView);
